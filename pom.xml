@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.1.6.RELEASE</version>
+    </parent>
+
+    <groupId>soap.client</groupId>
+    <artifactId>soap-client</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.jayway.jsonpath</groupId>
+            <artifactId>json-path</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.springframework.ws/spring-ws-core -->
+        <dependency>
+            <groupId>org.springframework.ws</groupId>
+            <artifactId>spring-ws-core</artifactId>
+            <version>2.2.0.RELEASE</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jaxws-maven-plugin</artifactId>
+                <version>2.4.1</version>
+                <executions>
+                    <execution>
+                        <id>CardESB</id>
+                        <goals>
+                            <goal>wsimport</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlDirectory>src/main/resources/card</wsdlDirectory>
+                            <wsdlFiles>
+                                <wsdlFile>CardPT.wsdl</wsdlFile>
+                            </wsdlFiles>
+                            <packageName>com.luxoft.alfabank.ecosystem.card.remote.ws.cardpt.stub</packageName>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>GenericESB</id>
+                        <goals>
+                            <goal>wsimport</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlDirectory>src/main/resources/card</wsdlDirectory>
+                            <wsdlFiles>
+                                <wsdlFile>GenericPT.wsdl</wsdlFile>
+                            </wsdlFiles>
+                            <packageName>com.luxoft.alfabank.ecosystem.card.remote.ws.generic.stub</packageName>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>CardSVOnlineServiceESB</id>
+                        <goals>
+                            <goal>wsimport</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlDirectory>src/main/resources/cardonline</wsdlDirectory>
+                            <wsdlFiles>
+                                <wsdlFile>CardSVOnline.wsdl</wsdlFile>
+                            </wsdlFiles>
+                            <packageName>com.luxoft.alfabank.ecosystem.card.remote.ws.cardsvonline.stub</packageName>
+                            <verbose>true</verbose>
+                        </configuration>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.sun.xml.ws</groupId>
+                        <artifactId>jaxws-tools</artifactId>
+                        <version>2.2.10</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <args>
+                        <arg>-B-XautoNameResolution</arg>
+                    </args>
+                    <keep>true</keep>
+                    <verbose>true</verbose>
+                    <destDir>${project.build.outputDirectory}</destDir>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
